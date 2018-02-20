@@ -5,10 +5,9 @@
 // A function that returns the underlying character if the letter has been guessed, or a placeholder (like an underscore) if the letter has not been guessed
 // A function that takes a character as an argument and checks it against the underlying character, updating the stored boolean value to true if it was guessed correctly
 
-// module.exports = Letter.js;
+
 
 var guessedArray=[];
-startGame();
 
 var Letter = function(char, guessed){
 	this.char=char;
@@ -22,11 +21,6 @@ var Letter = function(char, guessed){
 		console.log("Ops! you already guessed that letter, try with another!");
 	}
 	console.log(guessedArray);
-	inquire();
-}
-
-function startGame(){
-	console.log("Wellcome to the HangGame!");
 	inquire();
 }
 
@@ -46,7 +40,7 @@ function compare(letter){
 	}
 }
 
-function inquire(){
+var inquire= function(){
 	var inquirer = require("inquirer");
 	inquirer
 		.prompt([
@@ -69,3 +63,5 @@ function inquire(){
 		})
 }
 
+
+module.exports = Letter;
