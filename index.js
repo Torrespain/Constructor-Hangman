@@ -5,16 +5,17 @@
 
 var Letter = require ("./Letter");
 var Word = require ("./Word");
+var storedArray = require ("./Letter");
 
 var guessedBands=[];
 var gessedWord=[];
 var guessedArray=[];
 
-
 var charCounter=7;
 var word={};
+var guess={};
 
-var miniPoint;
+var miniPoint=0;
 
 var bandObject={
 	0: "Red Hot Chili Peppers",
@@ -79,7 +80,7 @@ var inquire= function(){
 			var char=inquirerResponse.letter;
 			if ((/^[a-zA-Z]/.test(char)||char==" ") && (char.length===1)){
 				char=char.toUpperCase();
-				var guess = new Letter(char, compare(char));
+				guess = new Letter(char, compare(char));
 				if (guess.alreadyGuessed===false) {
 					findChar(guess.char);
 				}
@@ -95,7 +96,7 @@ var inquire= function(){
 }
 
 function startGame(){
-	console.log("Welcome to the HangGame!");
+	console.log("\nWelcome to the HangGame!\n");
 
 	var newBand=assignBand();
 	
@@ -107,12 +108,30 @@ function startGame(){
 	inquire();
 }
 
+function nextWord(){
+	guess.reset();
+	guess.guessed=false;
+	guess.alreadyGuessed=false;
+	storedArray=[];
+	guessedBands=[];
+	gessedWord=[];
+	guessedArray=[];
+	charCounter=7;
+	miniPoint=0;
+
+	var newBand=assignBand();
+	word = new Word(newBand, emptyArray(newBand));
+	console.log(word.band);
+	console.log(word.guessedWord);
+
+	// inquire(); I am not sure why if I use it inquires twice..
+}
+
 function findChar(sample){
 	if ((word.band).indexOf(sample)!==-1) {
 		for (var i = 0; i < word.band.length; i++) {
 			if (word.band[i]===sample) {
 				word.guessedWord[i]=sample;
-				// word.band[i]="#";
 				miniPoint++;
 			}
 		}
@@ -120,25 +139,25 @@ function findChar(sample){
 		console.log(word.guessedWord);
 		console.log(word.band);
 		if (word.band.length===miniPoint) {
-
-
+			console.log("\nGreat job! \nLoading next word...\n")
+			console.log("---------------------------------------\n")
+			nextWord();
 
 		}
 	}
 	else{
-		console.log("you missed!")
+		console.log("You missed!")
 
 		charCounter--;
-		console.log(charCounter);
+		console.log("Remaining guesses: " + charCounter+"\n");
 		if (charCounter>0) {
 			inquire();
 		}
 		else{
-			console.log("Sorry you are hanged")
+			console.log("\nSorry you are hanged")
 		}
 	}
 
 }
-
 
 startGame();
