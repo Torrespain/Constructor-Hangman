@@ -6,62 +6,22 @@
 // A function that takes a character as an argument and checks it against the underlying character, updating the stored boolean value to true if it was guessed correctly
 
 
-
-var guessedArray=[];
+var storedArray=[];
 
 var Letter = function(char, guessed){
 	this.char=char;
 	this.guessed=guessed;
+	this.alreadyGuessed=false;
 
-	if (this.guessed===false){
+	if (this.guessed===false && storedArray.indexOf(this.char)===-1){
 		console.log("Not gessed!");
-		guessedArray.push(this.char);
+		storedArray.push(this.char);
 	}
 	else {
 		console.log("Ops! you already guessed that letter, try with another!");
+		this.alreadyGuessed=true;
 	}
-	console.log(guessedArray);
-	inquire();
+	console.log(storedArray);
 }
-
-function compare(letter){
-	for (var i = 0; i <= guessedArray.length; i++) {
-		if (letter===guessedArray[i]) {
-			return(true);
-		}
-		else if (i===guessedArray.length) {
-			if (letter===guessedArray[i]) {
-				return (true);
-			}
-			else {
-				return (false);
-			}
-		}
-	}
-}
-
-var inquire= function(){
-	var inquirer = require("inquirer");
-	inquirer
-		.prompt([
-			{
-				type: "input",
-				message: "Please guess a letter",
-				name: "letter"
-			}
-		])
-		.then(function(inquirerResponse){
-			var char=inquirerResponse.letter;
-			if ((/^[a-zA-Z]/.test(char)) && (char.length===1)){
-				char=char.toUpperCase();
-				var guess = new Letter(char, compare(char));
-			}
-			else {
-				console.log("Please choose just one letter between A-Z");
-				inquire();
-			}
-		})
-}
-
 
 module.exports = Letter;

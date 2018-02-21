@@ -8,6 +8,13 @@ var Word = require ("./Word");
 
 var guessedBands=[];
 var gessedWord=[];
+var guessedArray=[];
+
+
+var charCounter=7;
+var word={};
+
+var miniPoint;
 
 var bandObject={
 	0: "Red Hot Chili Peppers",
@@ -42,18 +49,96 @@ function emptyArray(band){
 }
 
 
-startGame();
+function compare(letter){
+	for (var i = 0; i <= guessedArray.length; i++) {
+		if (letter===guessedArray[i]) {
+			return(true);
+		}
+		else if (i===guessedArray.length) {
+			if (letter===guessedArray[i]) {
+				return (true);
+			}
+			else {
+				return (false);
+			}
+		}
+	}
+}
+
+var inquire= function(){
+	var inquirer = require("inquirer");
+	inquirer
+		.prompt([
+			{
+				type: "input",
+				message: "Please guess a letter",
+				name: "letter"
+			}
+		])
+		.then(function(inquirerResponse){
+			var char=inquirerResponse.letter;
+			if ((/^[a-zA-Z]/.test(char)||char==" ") && (char.length===1)){
+				char=char.toUpperCase();
+				var guess = new Letter(char, compare(char));
+				if (guess.alreadyGuessed===false) {
+					findChar(guess.char);
+				}
+				else{
+					inquire();
+				}
+			}
+			else {
+				console.log("Please choose just one letter between A-Z");
+				inquire();
+			}
+		})
+}
 
 function startGame(){
 	console.log("Welcome to the HangGame!");
 
-	
 	var newBand=assignBand();
 	
-	var test = new Word(newBand, emptyArray(newBand));
+	word = new Word(newBand, emptyArray(newBand));
 
-	console.log(test.band);
-	console.log(test.guessedWord);
+	console.log(word.band);
+	console.log(word.guessedWord);
+
+	inquire();
+}
+
+function findChar(sample){
+	if ((word.band).indexOf(sample)!==-1) {
+		for (var i = 0; i < word.band.length; i++) {
+			if (word.band[i]===sample) {
+				word.guessedWord[i]=sample;
+				// word.band[i]="#";
+				miniPoint++;
+			}
+		}
+		inquire();
+		console.log(word.guessedWord);
+		console.log(word.band);
+		if (word.band.length===miniPoint) {
+
+
+
+		}
+	}
+	else{
+		console.log("you missed!")
+
+		charCounter--;
+		console.log(charCounter);
+		if (charCounter>0) {
+			inquire();
+		}
+		else{
+			console.log("Sorry you are hanged")
+		}
+	}
+
 }
 
 
+startGame();
