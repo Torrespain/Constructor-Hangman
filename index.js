@@ -1,8 +1,3 @@
-// index.js: The file containing the logic for the course of the game, which depends on Word.js and:
-
-// Randomly selects a word and uses the Word constructor to store it
-// Prompts the user for each guess and keeps track of the user's remaining guesses
-
 var Letter = require ("./Letter");
 var Word = require ("./Word");
 var storedArray = require ("./Letter");
@@ -15,16 +10,16 @@ var charCounter=7;
 var word={};
 var guess={};
 
-var miniPoint=0;
+var miniPoint=0; //User gets one minipoint every time the letter matches
 
 var bandObject={
-	0: "Red Hot Chili Peppers",
-	1: "The Beattles",
+	0: "RedHot",
+	1: "TheBeattles",
 	2: "Radiohead",
-	3: "Linkin Park",
-	4: "Ill Nino",
-	5: "Modest Mouse",
-	6: "The National",
+	3: "LinkinPark",
+	4: "IllNino",
+	5: "ModestMouse",
+	6: "TheNational",
 	7: "Slipknot",
 	8: "Mushroomhead",
 	9: "Mudvayne"
@@ -78,7 +73,8 @@ var inquire= function(){
 		])
 		.then(function(inquirerResponse){
 			var char=inquirerResponse.letter;
-			if ((/^[a-zA-Z]/.test(char)||char==" ") && (char.length===1)){
+			guessedArray.push(char);
+			if ((/^[a-zA-Z]/.test(char)/*||char===" "*/) && (char.length===1)){
 				char=char.toUpperCase();
 				guess = new Letter(char, compare(char));
 				if (guess.alreadyGuessed===false) {
@@ -97,14 +93,10 @@ var inquire= function(){
 
 function startGame(){
 	console.log("\nWelcome to the HangGame!\n");
-
 	var newBand=assignBand();
-	
 	word = new Word(newBand, emptyArray(newBand));
-
-	console.log(word.band);
+	// console.log(word.band);
 	console.log(word.guessedWord);
-
 	inquire();
 }
 
@@ -113,7 +105,7 @@ function nextWord(){
 	guess.guessed=false;
 	guess.alreadyGuessed=false;
 	storedArray=[];
-	guessedBands=[];
+	guessedBands=[]; //If I dont empty the array I get an error after 3 or 4 words, this fixes it but sometimes the word repeats
 	gessedWord=[];
 	guessedArray=[];
 	charCounter=7;
@@ -124,7 +116,6 @@ function nextWord(){
 	console.log(word.band);
 	console.log(word.guessedWord);
 
-	// inquire(); I am not sure why if I use it inquires twice..
 }
 
 function findChar(sample){
@@ -132,22 +123,20 @@ function findChar(sample){
 		for (var i = 0; i < word.band.length; i++) {
 			if (word.band[i]===sample) {
 				word.guessedWord[i]=sample;
-				miniPoint++;
+				miniPoint++; 
 			}
 		}
 		inquire();
 		console.log(word.guessedWord);
-		console.log(word.band);
-		if (word.band.length===miniPoint) {
-			console.log("\nGreat job! \nLoading next word...\n")
-			console.log("---------------------------------------\n")
+		// console.log(word.band);
+		if (word.band.length===miniPoint) {//If minipoint===word lenght it means the word is completed
+			console.log("\nGreat job! \nLoading next word...\n");
+			console.log("------------------------------------------\n");
 			nextWord();
-
 		}
 	}
 	else{
-		console.log("You missed!")
-
+		console.log("You missed!");
 		charCounter--;
 		console.log("Remaining guesses: " + charCounter+"\n");
 		if (charCounter>0) {
@@ -155,6 +144,7 @@ function findChar(sample){
 		}
 		else{
 			console.log("\nSorry you are hanged")
+			console.log("The word was: " + word.band);
 		}
 	}
 
