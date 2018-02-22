@@ -3,7 +3,7 @@ var Word = require ("./Word");
 var storedArray = require ("./Letter");
 
 var guessedBands=[];
-var gessedWord=[];
+var guessedWord=[];
 var guessedArray=[];
 
 var charCounter=7;
@@ -39,9 +39,9 @@ function assignBand(){
 
 function emptyArray(band){
 	for (var i = 0; i < band.length; i++) {
-		gessedWord.push("_");
+		guessedWord.push("_");
 	}
-	return gessedWord;
+	return guessedWord;
 }
 
 
@@ -106,14 +106,14 @@ function nextWord(){
 	guess.alreadyGuessed=false;
 	storedArray=[];
 	guessedBands=[]; //If I dont empty the array I get an error after 3 or 4 words, this fixes it but sometimes the word repeats
-	gessedWord=[];
+	guessedWord=[];
 	guessedArray=[];
 	charCounter=7;
 	miniPoint=0;
 
 	var newBand=assignBand();
 	word = new Word(newBand, emptyArray(newBand));
-	console.log(word.band);
+	// console.log(word.band);
 	console.log(word.guessedWord);
 
 }

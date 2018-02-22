@@ -4,7 +4,7 @@ var Letter = function(char, guessed){
 	this.char=char;
 	this.guessed=guessed;
 	this.alreadyGuessed=false;
-	this.reset= function(){
+	this.reset= function(){ //resets the array once a word is guessed
 		storedArray = [];
 	}
 	if (this.guessed===false && storedArray.indexOf(this.char)===-1){
