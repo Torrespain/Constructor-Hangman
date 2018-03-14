@@ -18,6 +18,6 @@ Hangman command-line game using constructor functions
 
 <h3>Instructions to play</h3>
 - In order to play you will need Node.js®:
-<a href="https://nodejs.org/en/">Click to download</a>
+<a href="https://nodejs.org/en/">Click to download</a><br>
 - Clone the Github repository<br>
 - Using Node, acces the cloned repository and execute: node index.js
