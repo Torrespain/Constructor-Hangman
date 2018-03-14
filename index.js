@@ -7,8 +7,12 @@ var guessedWord=[];
 var guessedArray=[];
 
 var charCounter=7;
+
+
 var word={};
 var guess={};
+
+
 
 var miniPoint=0; //User gets one minipoint every time the letter matches
 
